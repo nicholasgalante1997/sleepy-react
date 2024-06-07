@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "lib": ["es6", "dom", "dom.iterable"],
+      "jsx": "react",
+      "module": "es6",
+      "rootDir": "./",
+      "moduleResolution": "bundler",
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "typeRoots": ["node_modules/@types"],
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "checkJs": true,
+      "declaration": true,
+      "declarationMap": true,
+      "emitDeclarationOnly": true,
+      "outDir": "./dist",
+      "removeComments": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "allowArbitraryExtensions": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "esbuild.config.cjs"]
+  }
