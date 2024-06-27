@@ -1,12 +1,10 @@
 import React from 'react';
 import { RenderToPipeableStreamOptions, renderToPipeableStream } from 'react-dom/server';
-
 import { Log } from 'sleepydogs';
-
 import { createWriteStream, existsSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 
-interface ReactFileOptions<P extends React.JSX.IntrinsicAttributes = any> {
+export interface ReactRenderToFileOptions<P extends React.JSX.IntrinsicAttributes = any> {
     filename: string;
     path?: string;
     component: React.ComponentType<P>,
@@ -16,8 +14,7 @@ interface ReactFileOptions<P extends React.JSX.IntrinsicAttributes = any> {
     pipeableStreamOptions?: RenderToPipeableStreamOptions;
 }
 
-function file(options: ReactFileOptions) {
-    
+function renderToFile(options: ReactRenderToFileOptions) {
     const {
         component: Component,
         filename,
@@ -34,16 +31,9 @@ function file(options: ReactFileOptions) {
         version: '0.1'
     })
 
-    rfl.info('ReactFileOptions:');
-    rfl.info(options);
-
     let out = process.cwd();
-    rfl.info("Current Working Dir: " + out);
 
     if (outdir) {
-        rfl.info("Supplied outdir.")
-        rfl.info("Outdir is " + outdir);
-        
         if (existsSync(path.resolve(out, outdir))) {
             out = path.resolve(out, outdir);
         } else {
@@ -59,7 +49,6 @@ function file(options: ReactFileOptions) {
     }
 
     out = path.resolve(out, filename);
-    rfl.info("Outfile path is " + out);
 
     if (existsSync(out)) {
         if (clobber) {
@@ -96,9 +85,10 @@ function file(options: ReactFileOptions) {
                     onAllReady();
                 }
 
-                rfl.info("Piping component to stream...");
+                rfl.info(`Piping ${Component.displayName ?? 'Component'} to stream...`);
                 pipe(stream);
                 stream.end();
+                stream.close(() => rfl.warn('write stream closed.'))
                 rfl.info("Operation complete.");
             },
             onShellError(error) {
@@ -113,4 +103,4 @@ function file(options: ReactFileOptions) {
     );
 }
 
-export default file;
+export default renderToFile;

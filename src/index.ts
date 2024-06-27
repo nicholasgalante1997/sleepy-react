@@ -1,1 +1,1 @@
-export { default as file } from './file';
+export { default as renderToFile, type ReactRenderToFileOptions } from './renderToFile';
