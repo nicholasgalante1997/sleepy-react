@@ -1,6 +1,6 @@
 {
   "name": "react-sleepy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Nick Galante <nicholasgalante1997@gmail.com>",
   "license": "ISC",
   "packageManager": "pnpm@9.5.0",
