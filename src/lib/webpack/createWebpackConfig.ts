@@ -33,6 +33,10 @@ export default function (
           },
         },
         {
+          test: /\.json$/,
+          loader: 'json-loader'
+        },
+        {
           test: /\.css$/i,
           use: ["style-loader", "css-loader"],
         },
@@ -43,6 +47,10 @@ export default function (
             loader: "babel-loader",
           },
         },
+        {
+          test: /\.(png|jpg|jpeg|webp)$/,
+          type: 'asset/resource'
+        }
       ],
     },
     resolve: {

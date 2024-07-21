@@ -1,5 +1,7 @@
 import React from "react";
+import merge from 'lodash.merge';
 import { Log, Timer } from "sleepydogs";
+import { Configuration } from "webpack";
 
 import StaticPageBuilder from "@/models/StaticRenderer";
 import createWebpackConfig from "@/lib/webpack/createWebpackConfig";
@@ -20,7 +22,7 @@ export type PageConfiguration<P extends React.JSX.IntrinsicAttributes = {}> = {
   };
 };
 
-export default async function build(pages: PageConfiguration[]) {
+export default async function build(pages: PageConfiguration[], webpack: Configuration = {}) {
   const buildInfo = [];
 
   for (const page of pages) {
@@ -29,7 +31,7 @@ export default async function build(pages: PageConfiguration[]) {
       for (const { src } of page.hydration.scripts) {
         Object.assign(entry, { [page.name]: src });
         const config = createWebpackConfig({ entry });
-        const buildJson = await runWebpackCompiler(config);
+        const buildJson = await runWebpackCompiler(merge(config, webpack));
         buildInfo.push(buildJson);
       }
     }
