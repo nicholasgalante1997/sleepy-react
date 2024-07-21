@@ -34,7 +34,7 @@ export default function (
         },
         {
           test: /\.json$/,
-          loader: 'json-loader'
+          loader: "json-loader",
         },
         {
           test: /\.css$/i,
@@ -49,8 +49,8 @@ export default function (
         },
         {
           test: /\.(png|jpg|jpeg|webp)$/,
-          type: 'asset/resource'
-        }
+          type: "asset/resource",
+        },
       ],
     },
     resolve: {

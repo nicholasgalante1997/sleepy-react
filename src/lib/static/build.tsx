@@ -1,5 +1,5 @@
 import React from "react";
-import merge from 'lodash.merge';
+import merge from "lodash.merge";
 import { Log, Timer } from "sleepydogs";
 import { Configuration } from "webpack";
 
@@ -22,7 +22,10 @@ export type PageConfiguration<P extends React.JSX.IntrinsicAttributes = {}> = {
   };
 };
 
-export default async function build(pages: PageConfiguration[], webpack: Configuration = {}) {
+export default async function build(
+  pages: PageConfiguration[],
+  webpack: Configuration = {},
+) {
   const buildInfo = [];
 
   for (const page of pages) {
@@ -36,21 +39,26 @@ export default async function build(pages: PageConfiguration[], webpack: Configu
       }
     }
 
-    // let props = null;
-    // if (page.getProps) {
-    //     const promise = Promise.resolve<any>(page.getProps());
-    //     props = await promise;
-    // }
+    let props = null;
+    if (page.getProps) {
+      const promise = Promise.resolve<any>(page.getProps());
+      props = await promise;
+    }
 
-    // const builder = new StaticPageBuilder();
+    const builder = new StaticPageBuilder();
 
-    // builder
-    //     .setComponent(page.Component)
-    //     .setProps(props)
-    //     .setClobber(true)
-    //     .setPath(page.outpath)
-    //     .setBrowserModules()
+    builder
+      .setComponent(page.Component)
+      .setProps(props)
+      .setClobber(true)
+      .setPath(page.outpath)
+      .setBrowserModules([])
+      .build();
   }
 
-  return buildInfo;
+  return {
+    status: "OK",
+    react: {},
+    webpack: buildInfo,
+  };
 }
