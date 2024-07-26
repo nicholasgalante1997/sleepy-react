@@ -1,27 +1,35 @@
 {
-    "$schema": "https://unpkg.com/release-it@17/schema/release-it.json",
-    "git": {
-      "commit": true,
-      "commitMessage": "feat: release v${version}",
-      "requireCleanWorkingDir": true,
-      "tag": true,
-      "tagAnnotation": "v${version}",
-      "tagArgs": [],
-      "push": true,
-      "pushArgs": ["--follow-tags"],
-      "requireBranch": "main"
+  "$schema": "https://unpkg.com/release-it@17/schema/release-it.json",
+  "git": {
+    "commit": true,
+    "commitMessage": "feat: release v${version}",
+    "requireCleanWorkingDir": true,
+    "tag": true,
+    "tagAnnotation": "v${version}",
+    "tagArgs": [],
+    "push": true,
+    "pushArgs": ["--follow-tags"],
+    "requireBranch": "main"
+  },
+  "npm": {
+    "allowSameVersion": false,
+    "publish": true,
+    "skipChecks": true
+  },
+  "github": {
+    "release": true
+  },
+  "hooks": {
+    "before:init": ["pnpm lint"]
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits"
+      },
+      "header": "# Changelog",
+      "infile": "CHANGELOG.md"
     },
-    "npm": {
-        "allowSameVersion": false,
-        "publish": true,
-        "skipChecks": true
-    },
-    "github": {
-      "release": true
-    },
-    "hooks": {
-      "before:init": [
-        "pnpm lint"
-      ]
-    }
+    "release-it-pnpm": {}
   }
+}

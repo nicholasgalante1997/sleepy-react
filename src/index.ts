@@ -8,4 +8,4 @@ export {
 } from "./renderIntoPipe";
 export { default as ReactStaticPageBuilder } from "./models/StaticRenderer";
 export { default as toStatic } from "./lib/static/build";
-export { getStaticBundle } from './lib/static/get';
+export { getStaticBundle } from "./lib/static/get";
