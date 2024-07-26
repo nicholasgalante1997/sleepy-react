@@ -1,6 +1,6 @@
 {
   "name": "react-sleepy",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "author": "Nick Galante <nicholasgalante1997@gmail.com>",
   "license": "ISC",
   "packageManager": "pnpm@9.5.0",
@@ -34,7 +34,7 @@
     "build": "npm-run-all -s clean build:*",
     "clean": "rm -rf dist",
     "release": "release-it",
-    "release:ci": "release-it --ci --increment=patch"
+    "release:ci": "release-it --ci"
   },
   "keywords": [
     "React",
