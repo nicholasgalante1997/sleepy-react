@@ -8,7 +8,8 @@
       "tagAnnotation": "v${version}",
       "tagArgs": [],
       "push": true,
-      "pushArgs": ["--follow-tags"]
+      "pushArgs": ["--follow-tags"],
+      "requireBranch": "main"
     },
     "npm": {
         "allowSameVersion": false,
