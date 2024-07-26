@@ -8,7 +8,7 @@ import { createWriteStream, existsSync, mkdirSync, rmSync } from "node:fs";
 import path from "node:path";
 
 export interface ReactRenderToFileOptions<
-  P extends React.JSX.IntrinsicAttributes = any,
+  P extends React.JSX.IntrinsicAttributes = object,
 > {
   filename: string;
   path?: string;
@@ -77,9 +77,9 @@ function renderToFile(options: ReactRenderToFileOptions) {
     }
   }
 
-  let controller = new AbortController();
+  const controller = new AbortController();
 
-  let stream = createWriteStream(out, {
+  const stream = createWriteStream(out, {
     encoding: "utf-8",
     flags: "w",
     signal: controller.signal,

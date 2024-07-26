@@ -16,5 +16,10 @@
     },
     "github": {
       "release": true
+    },
+    "hooks": {
+      "before:init": [
+        "pnpm lint"
+      ]
     }
   }

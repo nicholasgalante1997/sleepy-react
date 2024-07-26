@@ -1,4 +1,4 @@
-export interface StaticRendererOptions<P = {}> {
+export interface StaticRendererOptions<P = object> {
   /**
    * The component to render to a static markup file
    */

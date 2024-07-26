@@ -8,7 +8,7 @@ import { Writable } from "stream";
 
 export type PipeOptions<
   W extends Writable = Writable,
-  P extends React.JSX.IntrinsicAttributes = {},
+  P extends React.JSX.IntrinsicAttributes = object,
   C = React.ComponentType<P>,
 > = {
   stream: W;

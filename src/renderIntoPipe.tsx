@@ -7,7 +7,7 @@ import { Log } from "sleepydogs";
 import { Writable } from "node:stream";
 
 export interface ReactRenderIntoPipeOptions<
-  P extends React.JSX.IntrinsicAttributes = any,
+  P extends React.JSX.IntrinsicAttributes = object,
   W extends Writable = Writable,
 > {
   component: React.ComponentType<P>;

@@ -9,14 +9,15 @@ import path from "path";
 import _pipe, { PipeOptions } from "../lib/pipe";
 import { StaticRendererOptions } from "../types/IStaticRenderer";
 
-class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = {}> {
+class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
   private logger = Log.factory({ service: "sleepyreact", version: "0.1" });
   private Component: React.ComponentType<P> | null = null;
   private outpath: string | null = null;
   private props: P | undefined = undefined;
   private browserModules: string[] | undefined = undefined;
   private clobber: boolean = true;
-  private onAfterPipeCallback: ((...args: any[]) => void) | null = null;
+  /** eslint-ignore next-line @typescript-eslint/no-explicit-any */
+  private onAfterPipeCallback: (() => void) | null = null;
 
   constructor() {}
 
@@ -30,8 +31,8 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = {}> {
     this.removeOutpathIfExists(resolvedPath);
     this.createOutDirIfNotExists(resolvedPath);
     const pipeOptions = this.createPipeOptions(resolvedPath);
-
-    _pipe(pipeOptions as any);
+    // TODO Fix this, you goon
+    _pipe(pipeOptions as unknown as PipeOptions);
   }
 
   setComponent(Component: StaticRendererOptions<P>["Component"]) {
@@ -132,7 +133,7 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = {}> {
 
     const pipeOptions: PipeOptions<
       typeof fsWriteStream,
-      any,
+      P,
       typeof this.Component
     > = {
       Component: this.Component as React.ComponentType<P>,
