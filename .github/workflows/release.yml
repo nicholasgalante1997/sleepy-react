@@ -9,19 +9,15 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
     - name: Set Up Git Actor
       run: |
         git config --global user.name "Release CICD"
         git config --global user.email "nicholasgalante1997@gmail.com"
-
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
@@ -29,18 +25,14 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
     - name: Enable PNPM
       run: corepack enable pnpm
-
     - name: Install dependencies
       run: pnpm install --no-frozen-lockfile
-
     - name: Lint and build
       run: |
         npm run lint
         npm run build
-
     - name: Publish to npm
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
