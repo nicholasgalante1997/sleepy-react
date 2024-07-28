@@ -75,7 +75,9 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
+    "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
+    "lru-cache": "^11.0.0",
     "sleepydogs": "^1.0.7"
   }
 }
