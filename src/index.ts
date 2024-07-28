@@ -1,11 +1,26 @@
+import { default as toFile, type ReactRenderToFileOptions } from './renderToFile';
+import { default as toPipe, type ReactRenderIntoPipeOptions } from './renderIntoPipe';
+import { default as ReactStaticPageBuilder } from './models/StaticRenderer';
+import { default as toStatic } from "./lib/static/build";
+import { getStaticBundle } from "./lib/static/get";
+import { getSleepyProps } from './lib/browser';
+
 export {
-  default as toFile,
+  toFile,
   type ReactRenderToFileOptions,
-} from "./renderToFile";
-export {
-  default as toPipe,
+  toPipe,
   type ReactRenderIntoPipeOptions,
-} from "./renderIntoPipe";
-export { default as ReactStaticPageBuilder } from "./models/StaticRenderer";
-export { default as toStatic } from "./lib/static/build";
-export { getStaticBundle } from "./lib/static/get";
+  ReactStaticPageBuilder,
+  toStatic,
+  getStaticBundle,
+  getSleepyProps
+};
+
+export default {
+  toFile,
+  toPipe,
+  ReactStaticPageBuilder,
+  toStatic,
+  getStaticBundle,
+  getSleepyProps
+};

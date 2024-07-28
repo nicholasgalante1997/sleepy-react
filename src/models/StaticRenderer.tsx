@@ -1,7 +1,11 @@
 import React from "react";
-import { RenderToPipeableStreamOptions } from "react-dom/server";
+import {
+  RenderToPipeableStreamOptions,
+  RenderToReadableStreamOptions,
+} from "react-dom/server";
 
 import { Attempt, Log } from "sleepydogs";
+import merge from "lodash.merge";
 
 import fs from "fs";
 import path from "path";
@@ -9,13 +13,17 @@ import path from "path";
 import _pipe, { PipeOptions } from "../lib/pipe";
 import { StaticRendererOptions } from "../types/IStaticRenderer";
 
+import PropsInjector from "./PropsInjector";
+
 class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
   private logger = Log.factory({ service: "sleepyreact", version: "0.1" });
   private Component: React.ComponentType<P> | null = null;
   private outpath: string | null = null;
   private props: P | undefined = undefined;
   private browserModules: string[] | undefined = undefined;
+  private browserScripts: string[] | undefined = undefined;
   private clobber: boolean = true;
+  private renderToPipeableStreamOptions: RenderToPipeableStreamOptions = {};
   /** eslint-ignore next-line @typescript-eslint/no-explicit-any */
   private onAfterPipeCallback: (() => void) | null = null;
 
@@ -32,7 +40,7 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
     this.createOutDirIfNotExists(resolvedPath);
     const pipeOptions = this.createPipeOptions(resolvedPath);
     // TODO Fix this, you goon
-    _pipe(pipeOptions as unknown as PipeOptions);
+    _pipe(pipeOptions as any);
   }
 
   setComponent(Component: StaticRendererOptions<P>["Component"]) {
@@ -62,6 +70,16 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
 
   setOnAfterPipeCallback(callback: typeof this.onAfterPipeCallback) {
     this.onAfterPipeCallback = callback;
+    return this;
+  }
+
+  setBrowserScripts(browserScripts: string[]) {
+    this.browserScripts = browserScripts;
+    return this;
+  }
+
+  setRenderToPipeableStreamOptions(options: RenderToPipeableStreamOptions) {
+    this.renderToPipeableStreamOptions = options;
     return this;
   }
 
@@ -97,7 +115,7 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
     if (this.clobber && fileExists) this.remove(outpath);
     if (!this.clobber && fileExists) {
       throw new Error(
-        "File exists. If the intention is to delete the existing file, set `clobber` to true.",
+        "File exists. If the intention is to delete the existing file, set `clobber` to true."
       );
     }
   }
@@ -116,8 +134,9 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
       signal: abortController.signal,
     });
 
-    const options: RenderToPipeableStreamOptions = {
+    let options: RenderToPipeableStreamOptions = {
       bootstrapModules: this.browserModules || [],
+      bootstrapScripts: this.browserScripts || [],
       onShellError: (error) => {
         this.logger.error(error);
         throw error;
@@ -128,6 +147,16 @@ class StaticPageBuilder<P extends React.JSX.IntrinsicAttributes = object> {
         throw error;
       },
     };
+
+    if (this.props) {
+      Object.assign(options, {
+        bootstrapScriptContent: new PropsInjector<P>(this.props).toJS(),
+      } as RenderToReadableStreamOptions);
+    }
+
+    if (this.renderToPipeableStreamOptions) {
+      options = merge(this.renderToPipeableStreamOptions, options);
+    }
 
     const callback = this.onAfterPipeCallback;
 
