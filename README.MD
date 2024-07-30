@@ -1,4 +1,4 @@
-![sleeping kirby](./docs/assets/kirby.gif)
+![sleeping kirby](https://raw.githubusercontent.com/nicholasgalante1997/sleepy-react/main/docs/assets/kirby.gif)
 
 # react sleepy
 

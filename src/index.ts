@@ -12,6 +12,7 @@ export {
   toPipe,
   type ReactRenderIntoPipeOptions,
   ReactStaticPageBuilder,
+  ReactServerRenderer,
   toStatic,
   getStaticBundle,
   getSleepyProps
